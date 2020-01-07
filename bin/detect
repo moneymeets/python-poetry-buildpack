@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+BUILD_DIR=$1
+
+if [ ! -f "$BUILD_DIR/poetry.lock" ]; then
+  exit 1
+fi
+
+echo Python Poetry
