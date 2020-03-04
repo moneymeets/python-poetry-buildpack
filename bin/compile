@@ -21,6 +21,8 @@ source $HOME/.poetry/env
 echo "-----> Export requirements.txt from Poetry"
 
 cd "$BUILD_DIR"
+
+# pip can't handle editable dependencies when requiring hashes (https://github.com/pypa/pip/issues/4995)
 poetry export -f requirements.txt -o requirements.txt --without-hashes
 
 RUNTIME_FILE="runtime.txt"
