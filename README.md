@@ -4,7 +4,9 @@ A [Heroku](https://devcenter.heroku.com/) Buildpack for [Poetry](https://github.
 
 ## How to use
 
-The Python Poetry Buildpack prepares the build to be processed by a python buildpack such as `heroku/python`. To set up the use of several buildpacks from the heroku CLI use `buildpacks:add`:
+The Python Poetry Buildpack prepares the build to be processed by a Python buildpack such as `heroku/python` by generating `requirements.txt` and `runtime.txt` from `poetry.lock`.
+
+To set up the use of several buildpacks from the Heroku CLI use `buildpacks:add`:
 
 ```
 heroku buildpacks:clear
