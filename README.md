@@ -1,6 +1,6 @@
 # Python Poetry Buildpack
 
-A Heroku Buildpack for Poetry users.
+A [Heroku](https://devcenter.heroku.com/) Buildpack for [Poetry](https://github.com/python-poetry/poetry) users.
 
 ## How to use
 
