@@ -13,3 +13,9 @@ heroku buildpacks:clear
 heroku buildpacks:add https://github.com/moneymeets/python-poetry-buildpack.git
 heroku buildpacks:add heroku/python
 ```
+
+Generation of the `runtime.txt` can be skipped by setting `DISABLE_POETRY_CREATE_RUNTIME_FILE` to `1`:
+
+```
+heroku config:set DISABLE_POETRY_CREATE_RUNTIME_FILE=1
+```

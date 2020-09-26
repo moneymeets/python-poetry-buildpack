@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
 export BUILD_DIR=$1
+export ENV_DIR=$3
 export POETRY_VERSION=1.0.10
+
+export DISABLE_POETRY_CREATE_RUNTIME_FILE="$(cat $ENV_DIR/DISABLE_POETRY_CREATE_RUNTIME_FILE 2>/dev/null || true)"
 
 function indent() {
         c='s/^/       /'
@@ -28,6 +31,11 @@ poetry export -f requirements.txt -o requirements.txt --without-hashes
 RUNTIME_FILE="runtime.txt"
 
 echo "-----> Export Python version from Poetry to Heroku $RUNTIME_FILE file"
+
+if [ "$DISABLE_POETRY_CREATE_RUNTIME_FILE" ] && [ "$DISABLE_POETRY_CREATE_RUNTIME_FILE" != "0" ]; then
+  echo "-----> Skipping generation of $RUNTIME_FILE file from poetry.lock"
+  exit 0
+fi
 
 if [ -f "$RUNTIME_FILE" ]; then
   echo "-----> $RUNTIME_FILE found, delete this file in your repository!"
