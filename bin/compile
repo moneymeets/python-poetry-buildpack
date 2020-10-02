@@ -2,9 +2,17 @@
 
 export BUILD_DIR=$1
 export ENV_DIR=$3
-export POETRY_VERSION=1.0.10
+export POETRY_VERSION="$(cat $ENV_DIR/POETRY_VERSION 2>/dev/null)"
 
 export DISABLE_POETRY_CREATE_RUNTIME_FILE="$(cat $ENV_DIR/DISABLE_POETRY_CREATE_RUNTIME_FILE 2>/dev/null || true)"
+
+if [ -z "$POETRY_VERSION" ];
+then
+    echo "-----> No Poetry version sepecified in POETRY_VERSION config var. Defaulting to 1.0.10"
+    export POETRY_VERSION=1.0.10
+else
+    echo "-----> Using Poetry version from POETRY_VERSION config var: $POETRY_VERSION"
+fi
 
 function indent() {
         c='s/^/       /'
