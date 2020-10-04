@@ -8,8 +8,8 @@ export DISABLE_POETRY_CREATE_RUNTIME_FILE="$(cat $ENV_DIR/DISABLE_POETRY_CREATE_
 
 if [ -z "$POETRY_VERSION" ];
 then
-    echo "-----> No Poetry version sepecified in POETRY_VERSION config var. Defaulting to 1.0.10"
     export POETRY_VERSION=1.0.10
+    echo "-----> No Poetry version specified in POETRY_VERSION config var. Defaulting to $POETRY_VERSION."
 else
     echo "-----> Using Poetry version from POETRY_VERSION config var: $POETRY_VERSION"
 fi
