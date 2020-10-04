@@ -19,3 +19,9 @@ Generation of the `runtime.txt` can be skipped by setting `DISABLE_POETRY_CREATE
 ```
 heroku config:set DISABLE_POETRY_CREATE_RUNTIME_FILE=1
 ```
+
+The Poetry version can be specified by setting `POETRY_VERSION` in Heroku config vars. Otherwise it will default to a hard coded version.
+
+```
+heroku config:set POETRY_VERSION=1.1.0
+```
