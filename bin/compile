@@ -33,13 +33,6 @@ curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poet
 
 source $HOME/.poetry/env
 
-# ToDo: remove this hack when Poetry 1.1.3 is released. Fix in https://github.com/python-poetry/poetry/pull/3119
-if [ "$POETRY_VERSION" = "1.1.2" ]; then
-  echo "-----> Patch Poetry export file"
-  REPLACE_STR="deepcopy(__get_locked_package(requirement).to_dependency()) if __get_locked_package(requirement) else deepcopy(requirement)"
-  sed -i "234s/deepcopy(requirement)/$REPLACE_STR/" $HOME/.poetry/lib/poetry/packages/locker.py
-fi
-
 echo "-----> Export requirements.txt from Poetry"
 
 cd "$BUILD_DIR"
