@@ -43,7 +43,7 @@ cd "$BUILD_DIR"
 
 # pip can't handle vcs & editable dependencies when requiring hashes (https://github.com/pypa/pip/issues/4995)
 # poetry exports local dependencies as editable by default (https://github.com/python-poetry/poetry/issues/897)
-poetry export -f requirements.txt --without-hashes | sed 's/^-e //' > requirements.txt
+poetry export -f requirements.txt --without-hashes --with-credentials | sed 's/^-e //' > requirements.txt
 
 RUNTIME_FILE="runtime.txt"
 
