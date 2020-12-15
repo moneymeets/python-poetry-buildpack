@@ -14,6 +14,13 @@ heroku buildpacks:add https://github.com/moneymeets/python-poetry-buildpack.git
 heroku buildpacks:add heroku/python
 ```
 
+Inclusion of dev-dependencies (such as for CI pipeline) can be optionally enabled by setting  `POETRY_INCLUDE_DEV_DEPENDENCIES` to `1`:
+
+```
+heroku config:set POETRY_INCLUDE_DEV_DEPENDENCIES=1
+```
+
+
 Generation of the `runtime.txt` can be skipped by setting `DISABLE_POETRY_CREATE_RUNTIME_FILE` to `1`:
 
 ```

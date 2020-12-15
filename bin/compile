@@ -7,7 +7,7 @@ function log() {
 export BUILD_DIR=$1
 export ENV_DIR=$3
 export POETRY_VERSION="$(cat $ENV_DIR/POETRY_VERSION 2>/dev/null)"
-
+export POETRY_INCLUDE_DEV_DEPENDENCIES="$(cat $ENV_DIR/POETRY_INCLUDE_DEV_DEPENDENCIES 2>/dev/null || false)"
 export DISABLE_POETRY_CREATE_RUNTIME_FILE="$(cat $ENV_DIR/DISABLE_POETRY_CREATE_RUNTIME_FILE 2>/dev/null || true)"
 
 if [ -z "$POETRY_VERSION" ];
@@ -43,7 +43,12 @@ cd "$BUILD_DIR"
 
 # pip can't handle vcs & editable dependencies when requiring hashes (https://github.com/pypa/pip/issues/4995)
 # poetry exports local dependencies as editable by default (https://github.com/python-poetry/poetry/issues/897)
-poetry export -f requirements.txt --without-hashes --with-credentials | sed 's/^-e //' > requirements.txt
+if [ "$POETRY_INCLUDE_DEV_DEPENDENCIES" ] && [ "$POETRY_INCLUDE_DEV_DEPENDENCIES" != "0" ]; 
+then
+  poetry export -f requirements.txt --without-hashes --with-credentials --dev | sed 's/^-e //' > requirements.txt
+else
+  poetry export -f requirements.txt --without-hashes --with-credentials | sed 's/^-e //' > requirements.txt
+fi
 
 RUNTIME_FILE="runtime.txt"
 
