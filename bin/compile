@@ -8,6 +8,12 @@ export BUILD_DIR=$1
 export ENV_DIR=$3
 export POETRY_VERSION="$(cat $ENV_DIR/POETRY_VERSION 2>/dev/null)"
 
+for e in $(ls $ENV_DIR); do
+    echo "$e" | grep -E "POETRY_"  &&
+         export "$e=$(cat $ENV_DIR/$e 2>/dev/null)"
+    :
+done
+
 export DISABLE_POETRY_CREATE_RUNTIME_FILE="$(cat $ENV_DIR/DISABLE_POETRY_CREATE_RUNTIME_FILE 2>/dev/null || true)"
 
 if [ -z "$POETRY_VERSION" ];
