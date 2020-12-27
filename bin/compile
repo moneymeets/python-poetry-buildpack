@@ -41,6 +41,7 @@ curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poet
   | python3 \
   | indent
 
+# shellcheck source=/dev/null
 . "$HOME/.poetry/env"
 
 REQUIREMENTS_FILE="requirements.txt"
