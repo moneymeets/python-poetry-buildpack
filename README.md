@@ -16,6 +16,14 @@ heroku buildpacks:add heroku/python
 
 ## Configuration
 
+### Python
+
+Python version can be forced by setting the `PYTHON_RUNTIME_VERSION` variable:
+
+```
+heroku config:set PYTHON_RUNTIME_VERSION=3.9.1
+```
+
 ### Poetry
 
 The Poetry version can be specified by setting `POETRY_VERSION` in Heroku config vars. Otherwise, it will default to a hard coded version.

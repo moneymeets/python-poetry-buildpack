@@ -5,4 +5,5 @@
 -----> Export requirements.txt from Poetry
 -----> Enable exporting dev requirements to requirements.txt
 -----> Export Python version from Poetry to Heroku runtime.txt file
+-----> Read Python version from poetry.lock
 -----> Write 3.8.3 into runtime.txt

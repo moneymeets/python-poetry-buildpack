@@ -13,7 +13,7 @@ function indent() {
 export BUILD_DIR="$1"
 export ENV_DIR="$3"
 
-BUILDPACK_VARIABLES="DISABLE_POETRY_CREATE_RUNTIME_FILE"
+BUILDPACK_VARIABLES="DISABLE_POETRY_CREATE_RUNTIME_FILE PYTHON_RUNTIME_VERSION"
 
 shopt -s nullglob
 
@@ -80,7 +80,12 @@ if [ -f "$RUNTIME_FILE" ] ; then
     exit 1
 fi
 
-PYTHON_VERSION="$(sed -n -e '/^\[metadata\]/,/^\[/p' poetry.lock | sed -n -e 's/^python-versions\s*=\s*//p' | tr -d \"\')"
+if [ -z "${PYTHON_RUNTIME_VERSION:-}" ] ; then
+    log "Read Python version from poetry.lock"
+    PYTHON_RUNTIME_VERSION="$(sed -n -e '/^\[metadata\]/,/^\[/p' poetry.lock | sed -n -e 's/^python-versions\s*=\s*//p' | tr -d \"\')"
+else
+    log "Force Python version to $PYTHON_RUNTIME_VERSION, because PYTHON_RUNTIME_VERSION is set!"
+fi
 
 # Version is only valid if exact interpreter version is specified
 #
@@ -88,10 +93,10 @@ PYTHON_VERSION="$(sed -n -e '/^\[metadata\]/,/^\[/p' poetry.lock | sed -n -e 's/
 # 3.8 -> not valid
 # 3.8.1 -> valid
 
-if [[ "$PYTHON_VERSION" =~ ^[2-9](\.[0-9]+){2}$ ]] ; then
-    log "Write $PYTHON_VERSION into $RUNTIME_FILE"
-    echo "python-$PYTHON_VERSION" > "$RUNTIME_FILE"
+if [[ "$PYTHON_RUNTIME_VERSION" =~ ^[2-9](\.[0-9]+){2}$ ]] ; then
+    log "Write $PYTHON_RUNTIME_VERSION into $RUNTIME_FILE"
+    echo "python-$PYTHON_RUNTIME_VERSION" > "$RUNTIME_FILE"
 else
-    log "$PYTHON_VERSION is not valid, please specify an exact Python version (e.g. 3.8.1) in your pyproject.toml (and thus poetry.lock)" >&2
+    log "$PYTHON_RUNTIME_VERSION is not valid, please specify an exact Python version (e.g. 3.8.1) in your pyproject.toml (and thus poetry.lock)" >&2
     exit 1
 fi

@@ -4,3 +4,4 @@
        >>> mocked curl call <<<
 -----> Export requirements.txt from Poetry
 -----> Export Python version from Poetry to Heroku runtime.txt file
+-----> Read Python version from poetry.lock

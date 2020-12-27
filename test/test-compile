@@ -12,6 +12,9 @@ run_test no_vars_success compile "$INPUT_DIR" CACHE_DIR fixtures/env_dir
 cp fixtures/poetry.lock-valid "$INPUT_DIR"/poetry.lock
 run_test export_dev compile "$INPUT_DIR" CACHE_DIR fixtures/env_dir-export_dev
 
+cp fixtures/poetry.lock-valid "$INPUT_DIR"/poetry.lock
+run_test force_python_version compile "$INPUT_DIR" CACHE_DIR fixtures/env_dir-python_version
+
 cp fixtures/poetry.lock-invalid "$INPUT_DIR"/poetry.lock
 run_test invalid_python_version compile "$INPUT_DIR" CACHE_DIR fixtures/env_dir
 
