@@ -3,7 +3,7 @@
 set -euo pipefail
 
 function log() {
-        echo "-----> $*"
+    echo "-----> $*"
 }
 
 function indent() {
@@ -37,9 +37,9 @@ log "Generate requirements.txt with Poetry"
 log "Install Poetry"
 
 curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py \
-  | sed -e 's/allowed_executables = \["python", "python3"\]/allowed_executables = ["python3"]/' \
-  | python3 \
-  | indent
+    | sed -e 's/allowed_executables = \["python", "python3"\]/allowed_executables = ["python3"]/' \
+    | python3 \
+    | indent
 
 PATH_TO_POETRY_ENV="$HOME/.poetry/env"
 
@@ -64,13 +64,13 @@ RUNTIME_FILE="runtime.txt"
 log "Export Python version from Poetry to Heroku $RUNTIME_FILE file"
 
 if [ "$DISABLE_POETRY_CREATE_RUNTIME_FILE" ] && [ "$DISABLE_POETRY_CREATE_RUNTIME_FILE" != "0" ] ; then
-  log "Skip generation of $RUNTIME_FILE file from poetry.lock"
-  exit 0
+    log "Skip generation of $RUNTIME_FILE file from poetry.lock"
+    exit 0
 fi
 
 if [ -f "$RUNTIME_FILE" ] ; then
-  log "$RUNTIME_FILE found, delete this file from your repository!" >&2
-  exit 1
+    log "$RUNTIME_FILE found, delete this file from your repository!" >&2
+    exit 1
 fi
 
 PYTHON_VERSION="$(sed -n -e '/^\[metadata\]/,/^\[/p' poetry.lock | sed -n -e 's/^python-versions\s*=\s*//p' | tr -d \"\')"
@@ -82,9 +82,9 @@ PYTHON_VERSION="$(sed -n -e '/^\[metadata\]/,/^\[/p' poetry.lock | sed -n -e 's/
 # 3.8.1 -> valid
 
 if [[ "$PYTHON_VERSION" =~ ^[2-9](\.[0-9]+){2}$ ]] ; then
-  log "Write $PYTHON_VERSION into $RUNTIME_FILE"
-  echo "python-$PYTHON_VERSION" > "$RUNTIME_FILE"
+    log "Write $PYTHON_VERSION into $RUNTIME_FILE"
+    echo "python-$PYTHON_VERSION" > "$RUNTIME_FILE"
 else
-  log "$PYTHON_VERSION is not valid, please specify an exact Python version (e.g. 3.8.1) in your pyproject.toml (and thus poetry.lock)" >&2
-  exit 1
+    log "$PYTHON_VERSION is not valid, please specify an exact Python version (e.g. 3.8.1) in your pyproject.toml (and thus poetry.lock)" >&2
+    exit 1
 fi
