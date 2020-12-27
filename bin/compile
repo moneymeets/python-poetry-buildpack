@@ -1,30 +1,36 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 function log() {
         echo "-----> $*"
 }
 
-export BUILD_DIR=$1
-export ENV_DIR=$3
-export POETRY_VERSION="$(cat $ENV_DIR/POETRY_VERSION 2>/dev/null)"
+function indent() {
+    sed -e 's/^/       /'
+}
 
-export DISABLE_POETRY_CREATE_RUNTIME_FILE="$(cat $ENV_DIR/DISABLE_POETRY_CREATE_RUNTIME_FILE 2>/dev/null || true)"
+export BUILD_DIR="$1"
+export ENV_DIR="$3"
 
-if [ -z "$POETRY_VERSION" ];
-then
+BUILDPACK_VARIABLES="DISABLE_POETRY_CREATE_RUNTIME_FILE"
+
+shopt -s nullglob
+
+for env_file in "$ENV_DIR"/POETRY_* ; do
+    export "$(basename "$env_file")=$(cat "$env_file" 2>/dev/null)"
+done
+
+for env_file in $BUILDPACK_VARIABLES ; do
+    export "$(basename "$env_file")=$(cat "$ENV_DIR/$env_file" 2>/dev/null)"
+done
+
+if [ -z "${POETRY_VERSION:-}" ] ; then
     export POETRY_VERSION=1.1.4
     log "No Poetry version specified in POETRY_VERSION config var. Defaulting to $POETRY_VERSION."
 else
     log "Using Poetry version from POETRY_VERSION config var: $POETRY_VERSION"
 fi
-
-function indent() {
-        c='s/^/       /'
-        case $(uname) in
-                Darwin) sed -l "$c";;
-                *)      sed -u "$c";;
-        esac
-}
 
 log "Generate requirements.txt with Poetry"
 
@@ -35,32 +41,34 @@ curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poet
   | python3 \
   | indent
 
-source $HOME/.poetry/env
+. "$HOME/.poetry/env"
 
-log "Export requirements.txt from Poetry"
+REQUIREMENTS_FILE="requirements.txt"
+
+log "Export $REQUIREMENTS_FILE from Poetry"
 
 cd "$BUILD_DIR"
 
 # pip can't handle vcs & editable dependencies when requiring hashes (https://github.com/pypa/pip/issues/4995)
 # poetry exports local dependencies as editable by default (https://github.com/python-poetry/poetry/issues/897)
-poetry export -f requirements.txt --without-hashes --with-credentials | sed 's/^-e //' > requirements.txt
+poetry export -f "$REQUIREMENTS_FILE" --without-hashes --with-credentials > "$REQUIREMENTS_FILE.orig"
+sed -e 's/^-e //' < "$REQUIREMENTS_FILE.orig" > "$REQUIREMENTS_FILE" && rm "$REQUIREMENTS_FILE.orig"
 
 RUNTIME_FILE="runtime.txt"
 
 log "Export Python version from Poetry to Heroku $RUNTIME_FILE file"
 
-if [ "$DISABLE_POETRY_CREATE_RUNTIME_FILE" ] && [ "$DISABLE_POETRY_CREATE_RUNTIME_FILE" != "0" ]; then
+if [ "$DISABLE_POETRY_CREATE_RUNTIME_FILE" ] && [ "$DISABLE_POETRY_CREATE_RUNTIME_FILE" != "0" ] ; then
   log "Skip generation of $RUNTIME_FILE file from poetry.lock"
   exit 0
 fi
 
-if [ -f "$RUNTIME_FILE" ]; then
-  log "$RUNTIME_FILE found, delete this file from your repository!"
+if [ -f "$RUNTIME_FILE" ] ; then
+  log "$RUNTIME_FILE found, delete this file from your repository!" >&2
   exit 1
 fi
 
-# Get Python version from poetry.lock file metadata section
-VERSION=$(sed -n '/^\[metadata\]/,/^\[/p' poetry.lock | sed -n -e 's/^python-versions\s*=\s*//p' | tr -d '\"')
+PYTHON_VERSION="$(sed -n -e '/^\[metadata\]/,/^\[/p' poetry.lock | sed -n -e 's/^python-versions\s*=\s*//p' | tr -d \"\')"
 
 # Version is only valid if exact interpreter version is specified
 #
@@ -68,10 +76,10 @@ VERSION=$(sed -n '/^\[metadata\]/,/^\[/p' poetry.lock | sed -n -e 's/^python-ver
 # 3.8 -> not valid
 # 3.8.1 -> valid
 
-if [[ $VERSION =~ ^[2-9](\.[0-9]+){2}$ ]]; then
-  log "Write $VERSION into $RUNTIME_FILE"
-  echo "python-$VERSION" > $RUNTIME_FILE
+if [[ "$PYTHON_VERSION" =~ ^[2-9](\.[0-9]+){2}$ ]] ; then
+  log "Write $PYTHON_VERSION into $RUNTIME_FILE"
+  echo "python-$PYTHON_VERSION" > "$RUNTIME_FILE"
 else
-  log "$VERSION is not valid, please specify an exact Python version (e.g. 3.8.1) in your pyproject.toml (and thus poetry.lock)"
+  log "$PYTHON_VERSION is not valid, please specify an exact Python version (e.g. 3.8.1) in your pyproject.toml (and thus poetry.lock)" >&2
   exit 1
 fi
