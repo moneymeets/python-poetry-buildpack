@@ -22,7 +22,7 @@ for env_file in "$ENV_DIR"/POETRY_* ; do
 done
 
 for env_file in $BUILDPACK_VARIABLES ; do
-    export "$(basename "$env_file")=$(cat "$ENV_DIR/$env_file" 2>/dev/null)"
+    [ -f "$ENV_DIR/$env_file" ] && export "$(basename "$env_file")=$(cat "$ENV_DIR/$env_file" 2>/dev/null)"
 done
 
 if [ -z "${POETRY_VERSION:-}" ] ; then
@@ -63,7 +63,7 @@ RUNTIME_FILE="runtime.txt"
 
 log "Export Python version from Poetry to Heroku $RUNTIME_FILE file"
 
-if [ "$DISABLE_POETRY_CREATE_RUNTIME_FILE" ] && [ "$DISABLE_POETRY_CREATE_RUNTIME_FILE" != "0" ] ; then
+if [ "${DISABLE_POETRY_CREATE_RUNTIME_FILE:-0}" != "0" ] ; then
     log "Skip generation of $RUNTIME_FILE file from poetry.lock"
     exit 0
 fi
