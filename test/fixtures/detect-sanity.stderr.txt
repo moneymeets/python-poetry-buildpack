@@ -1,0 +1,1 @@
+../bin/detect: line 5: $1: unbound variable

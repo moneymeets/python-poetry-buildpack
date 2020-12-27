@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+. utils
+
+run_test sanity detect
+
+run_test not_poetry detect not_poetry
+
+cp fixtures/poetry.lock-valid "$INPUT_DIR"/poetry.lock
+run_test poetry detect "$INPUT_DIR"
