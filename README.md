@@ -22,8 +22,10 @@ heroku config:set DISABLE_POETRY_CREATE_RUNTIME_FILE=1
 
 If `DISABLE_POETRY_CREATE_RUNTIME_FILE` is set, required Python version can be specified in `runtime.txt`. Otherwise, if `runtime.txt` is present in the repository, the buildpack will prevent the app from being deployed in order to avoid possible ambiguities.
 
-The Poetry version can be specified by setting `POETRY_VERSION` in Heroku config vars. Otherwise it will default to a hard coded version.
+The Poetry version can be specified by setting `POETRY_VERSION` in Heroku config vars. Otherwise, it will default to a hard coded version.
 
 ```
 heroku config:set POETRY_VERSION=1.1.0
 ```
+
+Generally all variables starting with `POETRY_` are passed on to Poetry by this buildpack; see the corresponding [Poetry documentation](https://python-poetry.org/docs/configuration/#using-environment-variables) section for possible uses.
