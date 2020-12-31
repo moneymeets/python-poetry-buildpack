@@ -2,9 +2,11 @@
 
 set -u
 
-echo "Running test suite..."
+total_tests="$(cat test/test-* | grep -c "run_test")"
 
-pushd test || exit 1
+echo "1..$total_tests"
+
+pushd test > /dev/null || exit 1
 
 test_error=""
 
@@ -12,12 +14,9 @@ for test_case in test-* ; do
     bash "$(basename "$test_case")" || test_error=1
 done
 
-popd || true
+popd > /dev/null || true
 
-if [ -z "$test_error" ] ; then
-    echo "Test suite passed!"
-    exit 0
-else
-    echo "Test suite failed!" >&2
+if [ -n "$test_error" ] ; then
+    echo "# there are failed tests!" >&2
     exit 1
 fi
