@@ -49,3 +49,11 @@ heroku config:set DISABLE_POETRY_CREATE_RUNTIME_FILE=1
 ```
 
 If `DISABLE_POETRY_CREATE_RUNTIME_FILE` is set, the required Python version can be specified in `runtime.txt`. Otherwise, if `runtime.txt` is present in the repository, the buildpack will prevent the app from being deployed in order to avoid possible ambiguities.
+
+## Contributing
+
+To test your changes locally run the (TAP-compatible) test suite:
+
+```
+bash run_tests.sh
+```
