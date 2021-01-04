@@ -4,6 +4,8 @@ set -u
 
 cd "$( dirname "${BASH_SOURCE[0]}" )" || return
 
+export LANG=C LC_ALL=C
+
 function teardown() {
     EXIT_CODE="$(tr -d 0 < "$OUTPUT_DIR/EXIT_CODE.txt")"
     rm -r "$INPUT_DIR" "$OUTPUT_DIR"
