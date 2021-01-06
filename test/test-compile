@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+. utils
+
+run_test sanity-1 compile
+run_test sanity-2 compile BUILD_DIR
+run_test sanity-2 compile BUILD_DIR CACHE_DIR
+
+cp fixtures/poetry.lock-valid "$INPUT_DIR"/poetry.lock
+run_test no_vars_success compile "$INPUT_DIR" CACHE_DIR fixtures/env_dir
+
+cp fixtures/poetry.lock-valid "$INPUT_DIR"/poetry.lock
+run_test export_dev compile "$INPUT_DIR" CACHE_DIR fixtures/env_dir-export_dev
+
+cp fixtures/poetry.lock-valid "$INPUT_DIR"/poetry.lock
+run_test force_python_version compile "$INPUT_DIR" CACHE_DIR fixtures/env_dir-python_version
+
+cp fixtures/poetry.lock-invalid "$INPUT_DIR"/poetry.lock
+run_test invalid_python_version compile "$INPUT_DIR" CACHE_DIR fixtures/env_dir
+
+run_test skip_runtime_success compile "$INPUT_DIR" CACHE_DIR fixtures/env_dir-disable_runtime-1
+
+run_test force_poetry_version compile "$INPUT_DIR" CACHE_DIR fixtures/env_dir-poetry_version
+
+echo "test" > "$INPUT_DIR/runtime.txt"
+run_test skip_runtime_error compile "$INPUT_DIR" CACHE_DIR fixtures/env_dir-disable_runtime-0

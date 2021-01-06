@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+. utils
+
+run_test sanity release

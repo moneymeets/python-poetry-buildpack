@@ -1,0 +1,19 @@
+name: CI
+on: [ push ]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    container: moneymeets/moneymeets-ci:latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run linter
+        run: |
+          shellcheck bin/*
+          shellcheck -P SCRIPTDIR -x test/utils test/test-*
+
+      - name: Run tests
+        run: ./run_tests.sh
