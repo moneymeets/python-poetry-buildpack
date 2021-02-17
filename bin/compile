@@ -81,8 +81,8 @@ if [ -f "$RUNTIME_FILE" ] ; then
 fi
 
 if [ -z "${PYTHON_RUNTIME_VERSION:-}" ] ; then
-    log "Read Python version from poetry.lock"
-    PYTHON_RUNTIME_VERSION="$(sed -n -e '/^\[metadata\]/,/^\[/p' poetry.lock | sed -n -e 's/^python-versions\s*=\s*//p' | tr -d \"\')"
+    log "Detect Python version using Poetry"
+    PYTHON_RUNTIME_VERSION="$(poetry run python -c 'import platform; print(platform.python_version())')"
 else
     log "Force Python version to $PYTHON_RUNTIME_VERSION, because PYTHON_RUNTIME_VERSION is set!"
 fi
