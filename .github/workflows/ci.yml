@@ -9,9 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install linter
-        run: sudo apt-get -y install shellcheck
-
       - name: Run linter
         run: |
           shellcheck bin/*
