@@ -3,12 +3,14 @@ on: [ push ]
 
 jobs:
   lint-and-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     timeout-minutes: 15
-    container: moneymeets/moneymeets-ci:latest
 
     steps:
       - uses: actions/checkout@v2
+
+      - name: Install linter
+        run: sudo apt-get -y -qq install shellcheck
 
       - name: Run linter
         run: |
