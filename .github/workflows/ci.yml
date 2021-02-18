@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Install linter
-        run: sudo apt-get -y -qq install shellcheck
+        run: sudo apt-get -y install shellcheck
 
       - name: Run linter
         run: |
