@@ -13,7 +13,7 @@ function indent() {
 export BUILD_DIR="$1"
 export ENV_DIR="$3"
 
-BUILDPACK_VARIABLES="DISABLE_POETRY_CREATE_RUNTIME_FILE PYTHON_RUNTIME_VERSION"
+BUILDPACK_VARIABLES="DISABLE_POETRY_CREATE_RUNTIME_FILE DISABLE_POETRY_LOCK_CHECK PYTHON_RUNTIME_VERSION"
 
 shopt -s nullglob
 
@@ -24,6 +24,11 @@ done
 for env_file in $BUILDPACK_VARIABLES ; do
     [ -f "$ENV_DIR/$env_file" ] && export "$(basename "$env_file")=$(cat "$ENV_DIR/$env_file" 2>/dev/null)"
 done
+
+if [ ! -f "$BUILD_DIR/poetry.lock" ] && [ ! "${DISABLE_POETRY_LOCK_CHECK:-0}" != "0" ] ; then
+    log "poetry.lock not found, set DISABLE_POETRY_LOCK_CHECK to proceed!" >&2
+    exit 1
+fi
 
 if [ -z "${POETRY_VERSION:-}" ] ; then
     export POETRY_VERSION=1.1.4
