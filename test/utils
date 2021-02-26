@@ -58,7 +58,8 @@ function curl() {
 export -f curl
 
 function poetry() {
-    echo ">>> mocked poetry call <<<"
+    OUTPUT_FILE=$(echo "$@" | sed -n -E "s/.*-o +([^ ]+).*/\1/p")
+    echo ">>> mocked poetry call <<<" > "${OUTPUT_FILE:-/dev/stdout}"
 }
 
 export -f poetry
