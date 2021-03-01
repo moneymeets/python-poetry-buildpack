@@ -1,0 +1,16 @@
+version: "1"
+rules:
+  - base: master
+    upstream: moneymeets:master
+    mergeMethod: merge
+    assignees:
+      - djm
+      - culshaw
+      - hugorodgerbrown
+    reviewers:
+      - djm
+      - culshaw
+      - hugorodgerbrown
+
+label: ":arrow_heading_down: pull"
+conflictLabel: "merge-conflict"
