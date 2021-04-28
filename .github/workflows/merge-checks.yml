@@ -1,0 +1,19 @@
+# This file was added by Pulumi and should not be edited manually. To edit the contents of this file, please go
+# to the github-management project in moneymeets-pulumi and call `pulumi up` after changing the template file.
+
+name: Merge checks
+
+on:
+  push:
+    branches:
+      - feature/*
+
+jobs:
+  merge-checks:
+    runs-on: ubuntu-20.04
+    if: "!contains(github.event.head_commit.message, '[skip checks]')"
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Merge checks
+        uses: moneymeets/action-merge-checks@master
