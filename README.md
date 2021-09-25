@@ -4,7 +4,7 @@ A [Heroku](https://devcenter.heroku.com/) Buildpack for [Poetry](https://github.
 
 ## How to use
 
-The Python Poetry Buildpack prepares the build to be processed by a Python buildpack such as `heroku/python` by generating `requirements.txt` and `runtime.txt` from `poetry.lock`.
+The Python Poetry Buildpack prepares the build to be processed by a Python buildpack such as `heroku/python` by generating `requirements.txt` and `runtime.txt` from `poetry.lock`. With that said, your repo cannot have a `requirements.txt`, it will be exported from Poetry (for `runtime.txt` see below).
 
 To set up the use of several buildpacks from the Heroku CLI use `buildpacks:add`:
 
@@ -18,7 +18,7 @@ heroku buildpacks:add heroku/python
 
 ### Python
 
-Python version can be forced by setting the `PYTHON_RUNTIME_VERSION` variable:
+Python version can be forced by setting the `PYTHON_RUNTIME_VERSION` variable. Otherwise, it will be read from `poetry.lock`; for using Heroku default see below.
 
 ```
 heroku config:set PYTHON_RUNTIME_VERSION=3.9.1
@@ -26,7 +26,7 @@ heroku config:set PYTHON_RUNTIME_VERSION=3.9.1
 
 ### Poetry
 
-The Poetry version can be specified by setting `POETRY_VERSION` in Heroku config vars. Otherwise, it will default to a hard coded version.
+Poetry version can be specified by setting `POETRY_VERSION` in Heroku config vars. Otherwise, it will default to a hardcoded version.
 
 ```
 heroku config:set POETRY_VERSION=1.1.0
@@ -34,11 +34,11 @@ heroku config:set POETRY_VERSION=1.1.0
 
 Generally all variables starting with `POETRY_` are passed on to Poetry by this buildpack; see the corresponding [Poetry documentation](https://python-poetry.org/docs/configuration/#using-environment-variables) section for possible uses.
 
-Exporting of development dependencies (e.g. to run tests in CI pipelines) can be optionally enabled by setting  `POETRY_EXPORT_DEV_REQUIREMENTS` to `1`:
+Exporting of development dependencies (e.g. to run tests in CI pipelines) can be optionally enabled by setting `POETRY_EXPORT_DEV_REQUIREMENTS` to `1`:
 
- ```
- heroku config:set POETRY_EXPORT_DEV_REQUIREMENTS=1
- ```
+```
+heroku config:set POETRY_EXPORT_DEV_REQUIREMENTS=1
+```
 
 ### runtime.txt
 
