@@ -103,5 +103,5 @@ fi
 
 # Heroku installs from the requirements.txt file. Using .netrc allows he POETRY_HTTP_BASIC_PYPI_* values to be used by pip at install time.
 if [ -n  "$POETRY_HTTP_BASIC_PYPI_PASSWORD" ]; then
-    echo "machine $PYPI_PRIVATE_REPOSITORY login $POETRY_HTTP_BASIC_PYPI_USERNAME password $POETRY_HTTP_BASIC_PYPI_PASSWORD" >> ~/.netrc
+    echo "machine $POETRY_PYPI_PRIVATE_REPOSITORY login $POETRY_HTTP_BASIC_PYPI_USERNAME password $POETRY_HTTP_BASIC_PYPI_PASSWORDx" >> ~/.netrc
 fi
