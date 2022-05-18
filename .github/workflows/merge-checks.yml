@@ -17,3 +17,5 @@ jobs:
 
       - name: Merge checks
         uses: moneymeets/action-merge-checks@master
+        with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
