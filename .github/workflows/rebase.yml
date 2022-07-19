@@ -1,0 +1,35 @@
+# This file was added by Pulumi and should not be edited manually. To edit the contents of this file, please go
+# to the github-management project in moneymeets-pulumi and call `pulumi up` after changing the template file.
+
+name: Rebase
+
+on:
+  issue_comment:
+    types: [ created ]
+
+jobs:
+  rebase:
+    # https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#issue_comment
+    if: github.event.issue.pull_request && github.event.comment.body == '/rebase'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          # https://docs.github.com/en/actions/reference/events-that-trigger-workflows#triggering-new-workflows-using-a-personal-access-token
+          token: ${{ secrets.WORKFLOW_GITHUB_ACCESS_TOKEN }}
+
+      - name: Checkout PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          hub pr checkout ${{ github.event.issue.number }}
+
+      - name: Rebase and push
+        run: |
+          git config user.name 'Sir Mergealot'
+          git config user.email 'mergealot@moneymeets.com'
+
+          GIT_SEQUENCE_EDITOR=true git rebase --interactive --autosquash origin/master
+
+          git push -u origin HEAD --force-with-lease
