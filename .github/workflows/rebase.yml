@@ -17,7 +17,7 @@ jobs:
         with:
           fetch-depth: 0
           # https://docs.github.com/en/actions/reference/events-that-trigger-workflows#triggering-new-workflows-using-a-personal-access-token
-          token: ${{ secrets.WORKFLOW_GITHUB_ACCESS_TOKEN }}
+          ssh-key: '${{ secrets.WORKFLOW_DEPLOY_KEY }}'
 
       - name: Checkout PR
         env:
