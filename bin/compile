@@ -57,7 +57,7 @@ log "Export $REQUIREMENTS_FILE from Poetry"
 
 cd "$BUILD_DIR"
 
-EXPORT_PARAMETERS=(--without-hashes --with-credentials)
+EXPORT_PARAMETERS=(--without-hashes --with-credentials --quiet)
 
 if [ "${POETRY_EXPORT_DEV_REQUIREMENTS:-0}" != "0" ] ; then
     log "Enable exporting dev requirements to $REQUIREMENTS_FILE"
