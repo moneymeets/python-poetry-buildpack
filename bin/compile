@@ -44,12 +44,12 @@ curl -sSL https://install.python-poetry.org \
 echo 'Adding poetry to the $PATH'
 export PATH="/app/.local/bin:$PATH"
 
-PATH_TO_POETRY_ENV="$HOME/.poetry/env"
+# PATH_TO_POETRY_ENV="$HOME/.poetry/env"
 
-if [ -f "$PATH_TO_POETRY_ENV" ] ; then
-    # shellcheck source=/dev/null
-    . "$PATH_TO_POETRY_ENV"
-fi
+# if [ -f "$PATH_TO_POETRY_ENV" ] ; then
+#     # shellcheck source=/dev/null
+#     . "$PATH_TO_POETRY_ENV"
+# fi
 
 REQUIREMENTS_FILE="requirements.txt"
 
@@ -68,6 +68,8 @@ fi
 # poetry exports local dependencies as editable by default (https://github.com/python-poetry/poetry/issues/897)
 poetry export -f "$REQUIREMENTS_FILE" "${EXPORT_PARAMETERS[@]}" > "$REQUIREMENTS_FILE.orig"
 sed -e 's/^-e //' < "$REQUIREMENTS_FILE.orig" > "$REQUIREMENTS_FILE" && rm "$REQUIREMENTS_FILE.orig"
+
+cat "$REQUIREMENTS_FILE"
 
 RUNTIME_FILE="runtime.txt"
 
