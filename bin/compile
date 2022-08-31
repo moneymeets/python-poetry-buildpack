@@ -44,13 +44,6 @@ curl -sSL https://install.python-poetry.org \
 echo 'Adding poetry to the $PATH'
 export PATH="/app/.local/bin:$PATH"
 
-# PATH_TO_POETRY_ENV="$HOME/.poetry/env"
-
-# if [ -f "$PATH_TO_POETRY_ENV" ] ; then
-#     # shellcheck source=/dev/null
-#     . "$PATH_TO_POETRY_ENV"
-# fi
-
 REQUIREMENTS_FILE="requirements.txt"
 
 log "Export $REQUIREMENTS_FILE from Poetry"
