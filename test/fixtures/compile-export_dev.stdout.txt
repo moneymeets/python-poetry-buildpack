@@ -1,9 +1,14 @@
------> No Poetry version specified in POETRY_VERSION config var. Defaulting to 1.1.13.
+-----> No Poetry version specified in POETRY_VERSION config var. Defaulting to 1.2.0.
 -----> Generate requirements.txt with Poetry
 -----> Install Poetry
        >>> mocked curl call <<<
+-----> Add Poetry to the PATH
+-----> Force usage of active Python and disable creation of virtualenvs
+       >>> mocked poetry call <<<
+       >>> mocked poetry call <<<
 -----> Export requirements.txt from Poetry
 -----> Enable exporting dev requirements to requirements.txt
+       >>> mocked poetry call <<<
 -----> Export Python version from Poetry to Heroku runtime.txt file
 -----> Read Python version from poetry.lock
 -----> Write 3.8.3 into runtime.txt
