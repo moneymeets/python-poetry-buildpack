@@ -40,6 +40,9 @@ curl -sSL https://install.python-poetry.org \
     | sed -e 's/allowed_executables = \["python", "python3"\]/allowed_executables = ["python3"]/' \
     | python3 \
     | indent
+    
+echo 'Adding poetry to the $PATH'
+export PATH="/app/.local/bin:$PATH"
 
 PATH_TO_POETRY_ENV="$HOME/.poetry/env"
 
