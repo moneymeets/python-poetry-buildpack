@@ -26,7 +26,7 @@ for env_file in $BUILDPACK_VARIABLES ; do
 done
 
 if [ -z "${POETRY_VERSION:-}" ] ; then
-    export POETRY_VERSION=1.1.5
+    export POETRY_VERSION=1.2.0
     log "No Poetry version specified in POETRY_VERSION config var. Defaulting to $POETRY_VERSION."
 else
     log "Using Poetry version from POETRY_VERSION config var: $POETRY_VERSION"
@@ -36,17 +36,13 @@ log "Generate requirements.txt with Poetry"
 
 log "Install Poetry"
 
-curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py \
+curl -sSL https://install.python-poetry.org \
     | sed -e 's/allowed_executables = \["python", "python3"\]/allowed_executables = ["python3"]/' \
     | python3 \
     | indent
 
-PATH_TO_POETRY_ENV="$HOME/.poetry/env"
-
-if [ -f "$PATH_TO_POETRY_ENV" ] ; then
-    # shellcheck source=/dev/null
-    . "$PATH_TO_POETRY_ENV"
-fi
+log "Adding poetry to the PATH"
+export PATH="/app/.local/bin:$PATH"
 
 REQUIREMENTS_FILE="requirements.txt"
 
@@ -63,7 +59,7 @@ fi
 
 # pip can't handle vcs & editable dependencies when requiring hashes (https://github.com/pypa/pip/issues/4995)
 # poetry exports local dependencies as editable by default (https://github.com/python-poetry/poetry/issues/897)
-poetry export -f "$REQUIREMENTS_FILE" "${EXPORT_PARAMETERS[@]}" > "$REQUIREMENTS_FILE.orig"
+poetry export -f "$REQUIREMENTS_FILE" "${EXPORT_PARAMETERS[@]}" -o "$REQUIREMENTS_FILE.orig"
 sed -e 's/^-e //' < "$REQUIREMENTS_FILE.orig" > "$REQUIREMENTS_FILE" && rm "$REQUIREMENTS_FILE.orig"
 
 RUNTIME_FILE="runtime.txt"
