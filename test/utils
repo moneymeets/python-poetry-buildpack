@@ -58,6 +58,10 @@ function curl() {
 export -f curl
 
 function poetry() {
+    if [ "$1" = "export" ] ; then
+        # Fake creating the export file
+        touch requirements.txt.orig
+    fi
     echo ">>> mocked poetry call <<<"
 }
 
