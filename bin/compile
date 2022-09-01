@@ -60,6 +60,7 @@ fi
 if [ "${POETRY_VERSION:0:3}" = "1.2" ] ; then
     # Allow `poetry export` to work even if we aren't using the
     # Python version that the project will ultimately run in
+    log "Set virtualenvs.prefer-active-python to true"
     poetry config virtualenvs.prefer-active-python true
 fi
 
