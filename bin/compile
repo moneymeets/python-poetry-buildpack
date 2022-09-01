@@ -57,6 +57,8 @@ if [ "${POETRY_EXPORT_DEV_REQUIREMENTS:-0}" != "0" ] ; then
     EXPORT_PARAMETERS+=(--dev)
 fi
 
+# Allow `poetry export` to work even if we aren't using the
+# Python version that the project will ultimately run in
 poetry config virtualenvs.prefer-active-python true
 
 # pip can't handle vcs & editable dependencies when requiring hashes (https://github.com/pypa/pip/issues/4995)
