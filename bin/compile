@@ -40,7 +40,7 @@ curl -sSL https://install.python-poetry.org \
     | sed -e 's/allowed_executables = \["python", "python3"\]/allowed_executables = ["python3"]/' \
     | python3 \
     | indent
-    
+
 log "Adding poetry to the PATH"
 export PATH="/app/.local/bin:$PATH"
 
@@ -56,6 +56,8 @@ if [ "${POETRY_EXPORT_DEV_REQUIREMENTS:-0}" != "0" ] ; then
     log "Enable exporting dev requirements to $REQUIREMENTS_FILE"
     EXPORT_PARAMETERS+=(--dev)
 fi
+
+poetry config virtualenvs.prefer-active-python true
 
 # pip can't handle vcs & editable dependencies when requiring hashes (https://github.com/pypa/pip/issues/4995)
 # poetry exports local dependencies as editable by default (https://github.com/python-poetry/poetry/issues/897)
