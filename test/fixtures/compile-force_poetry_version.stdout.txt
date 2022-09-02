@@ -2,6 +2,11 @@
 -----> Generate requirements.txt with Poetry
 -----> Install Poetry
        >>> mocked curl call <<<
+-----> Add Poetry to the PATH
+-----> Force usage of active Python and disable creation of virtualenvs
+       >>> mocked poetry call <<<
+       >>> mocked poetry call <<<
 -----> Export requirements.txt from Poetry
+       >>> mocked poetry call <<<
 -----> Export Python version from Poetry to Heroku runtime.txt file
 -----> Skip generation of runtime.txt file from poetry.lock

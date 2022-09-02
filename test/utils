@@ -58,6 +58,11 @@ function curl() {
 export -f curl
 
 function poetry() {
+    if [ "$1" = "export" ] ; then
+        # mock creating the export file
+        last="$#"
+        touch "${!last}"
+    fi
     echo ">>> mocked poetry call <<<"
 }
 
