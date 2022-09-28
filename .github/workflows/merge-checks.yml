@@ -7,18 +7,25 @@ on:
   push:
     branches:
       - feature/*
+  pull_request_target:
 
 jobs:
   merge-checks:
-    runs-on: ubuntu-20.04
-    if: "!contains(github.event.head_commit.message, '[skip checks]')"
+    runs-on: ubuntu-22.04
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     permissions:
       contents: read
       statuses: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/github-script@v6
+        id: get-head-hash
+        with:
+          result-encoding: string
+          script: |
+            core.setOutput("value", context.eventName == "pull_request_target" ? context.payload.pull_request.head.sha : context.sha);
 
       - name: Merge checks
         uses: moneymeets/action-merge-checks@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          head_sha: ${{ steps.get-head-hash.outputs.value }}
