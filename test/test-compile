@@ -24,3 +24,11 @@ run_test force_poetry_version compile "$INPUT_DIR" CACHE_DIR fixtures/env_dir-po
 
 echo "test" > "$INPUT_DIR/runtime.txt"
 run_test skip_runtime_error compile "$INPUT_DIR" CACHE_DIR fixtures/env_dir-disable_runtime-0
+
+# overiding export param with POETRY_EXPORT_PARAMS env var
+cp fixtures/poetry.lock-valid "$INPUT_DIR"/poetry.lock
+run_test export_params-0 compile "$INPUT_DIR" CACHE_DIR fixtures/env_dir-export_params-0
+
+# overiding export param with POETRY_EXPORT_PARAMS env var and skipping POETRY_EXPORT_DEV_REQUIREMENTS env var
+cp fixtures/poetry.lock-valid "$INPUT_DIR"/poetry.lock
+run_test export_params-1 compile "$INPUT_DIR" CACHE_DIR fixtures/env_dir-export_params-1

@@ -56,9 +56,17 @@ cd "$BUILD_DIR"
 
 EXPORT_PARAMETERS=(--without-hashes --with-credentials)
 
-if [ "${POETRY_EXPORT_DEV_REQUIREMENTS:-0}" != "0" ] ; then
-    log "Enable exporting dev requirements to $REQUIREMENTS_FILE"
-    EXPORT_PARAMETERS+=(--dev)
+# if POETRY_EXPORT_PARAMS config var is set, override default (--without-hashes --with-credentials) export option
+# if POETRY_EXPORT_PARAMS config var is set, it will also skip POETRY_EXPORT_DEV_REQUIREMENTS config var
+if [ "${POETRY_EXPORT_PARAMS:-0}" != "0" ] ; then
+    log "Using POETRY_EXPORT_PARAMS config var ($POETRY_EXPORT_PARAMS) as export option for $REQUIREMENTS_FILE"
+    EXPORT_PARAMETERS=( "$POETRY_EXPORT_PARAMS" )
+else
+    # if POETRY_EXPORT_PARAMS config var is not set, check POETRY_EXPORT_DEV_REQUIREMENTS config var
+    if [ "${POETRY_EXPORT_DEV_REQUIREMENTS:-0}" != "0" ] ; then
+        log "Enable exporting dev requirements to $REQUIREMENTS_FILE"
+        EXPORT_PARAMETERS+=(--dev)
+    fi
 fi
 
 # pip can't handle vcs & editable dependencies when requiring hashes (https://github.com/pypa/pip/issues/4995)
