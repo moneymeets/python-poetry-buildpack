@@ -7,7 +7,7 @@
        >>> mocked poetry call <<<
        >>> mocked poetry call <<<
 -----> Export requirements.txt from Poetry
------> Using POETRY_EXPORT_PARAMS config var (--with test) as export option for requirements.txt
+-----> Using POETRY_EXPORT_PARAMS to set export params ( --with test ) for requirements.txt
        >>> mocked poetry call <<<
 -----> Export Python version from Poetry to Heroku runtime.txt file
 -----> Read Python version from poetry.lock
