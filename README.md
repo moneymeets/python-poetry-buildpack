@@ -40,12 +40,11 @@ Exporting of development dependencies (e.g. to run tests in CI pipelines) can be
 heroku config:set POETRY_EXPORT_DEV_REQUIREMENTS=1
 ```
 
-If you want to provide your own options with export instead of using the defaults (`--without-hashes --with-credentials`), you can set `POETRY_EXPORT_PARAMS` to your choice. This way you could set `--with-hashes` if you don't use git dependencies for example. This option will also skip any value set to `POETRY_EXPORT_DEV_REQUIREMENTS` config var.
+If you want to override the default export parameters (`--without-hashes --with-credentials`), you can set the `POETRY_EXPORT_PARAMS` config var. For example, you can use `--with-hashes` for added security, if you don't need git dependencies. This option is compatible with `POETRY_EXPORT_DEV_REQUIREMENTS` config var documented above.
 
 ```
 heroku config:set POETRY_EXPORT_PARAMS=--with-hashes
 ```
-
 
 ### runtime.txt
 
