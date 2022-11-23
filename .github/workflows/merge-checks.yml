@@ -6,7 +6,7 @@ name: Merge checks
 on:
   push:
     branches:
-      - feature/*
+      - feature/**
   pull_request_target:
 
 jobs:
