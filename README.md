@@ -10,7 +10,7 @@ To set up the use of several buildpacks from the Heroku CLI use `buildpacks:add`
 
 ```
 heroku buildpacks:clear
-heroku buildpacks:add https://github.com/moneymeets/python-poetry-buildpack.git
+heroku buildpacks:add https://github.com/forgepackages/heroku-buildpack-poetry.git
 heroku buildpacks:add heroku/python
 ```
 
