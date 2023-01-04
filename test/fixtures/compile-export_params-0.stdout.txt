@@ -5,7 +5,6 @@
 -----> Add Poetry to the PATH
 -----> Force usage of active Python and disable creation of virtualenvs
        >>> mocked poetry call <<<
-       >>> mocked poetry call <<<
 -----> Export requirements.txt from Poetry
 -----> Using POETRY_EXPORT_PARAMS to set export params ( --with test ) for requirements.txt
        >>> mocked poetry call <<<

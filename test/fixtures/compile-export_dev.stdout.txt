@@ -5,7 +5,6 @@
 -----> Add Poetry to the PATH
 -----> Force usage of active Python and disable creation of virtualenvs
        >>> mocked poetry call <<<
-       >>> mocked poetry call <<<
 -----> Export requirements.txt from Poetry
 -----> Enable exporting dev requirements to requirements.txt
        >>> mocked poetry call <<<
