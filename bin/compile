@@ -88,6 +88,15 @@ fi
 if [ -z "${PYTHON_RUNTIME_VERSION:-}" ] ; then
     log "Read Python version from poetry.lock"
     PYTHON_RUNTIME_VERSION="$(sed -n -e '/^\[metadata\]/,/^\[/p' poetry.lock | sed -n -e 's/^python-versions\s*=\s*//p' | tr -d \"\')"
+
+    if [[ "$PYTHON_RUNTIME_VERSION" =~ ^~3\.([0-9]+)$ ]] ; then
+        # If Python version is specified as "~3.11", use the latest Python 3.11.x version
+        BIN_DIR=$(cd "$(dirname "$0")"; pwd) # absolute path
+        source "$BIN_DIR/default_pythons"
+        LATEST_PYTHON_RUNTIME_VERSION="${!LATEST_3${BASH_REMATCH[1]}}"
+        log "Found Python $PYTHON_RUNTIME_VERSION in poetry.lock, using Heroku's latest $LATEST_PYTHON_RUNTIME_VERSION"
+        PYTHON_RUNTIME_VERSION="$LATEST_PYTHON_RUNTIME_VERSION"
+    fi
 else
     log "Force Python version to $PYTHON_RUNTIME_VERSION, because PYTHON_RUNTIME_VERSION is set!"
 fi

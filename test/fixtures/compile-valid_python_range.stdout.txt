@@ -1,0 +1,10 @@
+-----> No Poetry version specified in POETRY_VERSION config var. Defaulting to 1.3.1.
+-----> Generate requirements.txt with Poetry
+-----> Install Poetry
+       >>> mocked curl call <<<
+-----> Add Poetry to the PATH
+-----> Export requirements.txt from Poetry
+       >>> mocked poetry call <<<
+-----> Export Python version from Poetry to Heroku runtime.txt file
+-----> Read Python version from poetry.lock
+-----> Found Python ~3.8 in poetry.lock, using Heroku's latest Python 3.8.16

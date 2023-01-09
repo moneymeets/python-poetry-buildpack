@@ -1,0 +1,8 @@
+python-versions = "3.8.1"
+
+[metadata]
+lock-version = "1.1"
+python-versions = "~3.8"
+content-hash = "da2fc19cb5e10ad726a3f8e65247221010b8dc20a38e571ec66de2fec53e9ad4"
+
+[metadata.files]

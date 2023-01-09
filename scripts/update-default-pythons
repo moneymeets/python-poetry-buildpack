@@ -1,0 +1,2 @@
+#!/bin/sh -e
+curl https://raw.githubusercontent.com/heroku/heroku-buildpack-python/main/bin/default_pythons > bin/default_pythons
