@@ -14,6 +14,8 @@ heroku buildpacks:add https://github.com/moneymeets/python-poetry-buildpack.git
 heroku buildpacks:add heroku/python
 ```
 
+**Note:** this buildpack is _only_ for generating `requirements.txt` and `runtime.txt` for subsequent use by the official `heroku/python` buildpack. Do not depend on the installed Poetry's location, or its venv remaining functional at app runtime. If you need Poetry for other purposes (for example CI checks), make your own separate Poetry installation accordingly.
+
 ## Configuration
 
 ### Python
