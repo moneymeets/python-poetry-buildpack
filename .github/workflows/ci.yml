@@ -5,7 +5,7 @@ on: [ push, pull_request ]
 jobs:
   lint-and-test:
     if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 5
 
     steps:
@@ -16,5 +16,4 @@ jobs:
           shellcheck bin/*
           shellcheck -P SCRIPTDIR -x test/utils test/test-*
 
-      - name: Run tests
-        run: ./run_tests.sh
+      - run: ./run_tests.sh

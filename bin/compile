@@ -26,7 +26,7 @@ for env_file in $BUILDPACK_VARIABLES ; do
 done
 
 if [ -z "${POETRY_VERSION:-}" ] ; then
-    export POETRY_VERSION=1.2.0
+    export POETRY_VERSION=1.3.2
     log "No Poetry version specified in POETRY_VERSION config var. Defaulting to $POETRY_VERSION."
 else
     log "Using Poetry version from POETRY_VERSION config var: $POETRY_VERSION"
@@ -41,8 +41,9 @@ log "Add Poetry to the PATH"
 export PATH="/app/.local/bin:$PATH"
 
 if [ "${POETRY_VERSION:0:3}" = "1.2" ] ; then
-    # Allow `poetry export` to work even if we aren't using the
-    # Python version that the project will ultimately run in
+    # Allow `poetry export` to work even if we aren't using the Python version that the project will ultimately run in
+    # The problem exists in Poetry version 1.2.0 and has been fixed in https://github.com/python-poetry/poetry/pull/6282
+    # This change is kept for backwards compatibility
     log "Force usage of active Python and disable creation of virtualenvs"
     poetry config virtualenvs.prefer-active-python true | indent
     poetry config virtualenvs.create false | indent
@@ -87,7 +88,7 @@ fi
 
 if [ -z "${PYTHON_RUNTIME_VERSION:-}" ] ; then
     log "Read Python version from poetry.lock"
-    PYTHON_RUNTIME_VERSION="$(sed -n -e '/^\[metadata\]/,/^\[/p' poetry.lock | sed -n -e 's/^python-versions\s*=\s*//p' | tr -d \"\')"
+    PYTHON_RUNTIME_VERSION="$(sed -n -e '/^\[metadata\]/,/^\[/p' poetry.lock | sed -n -e 's/^python-versions\s*=\s*//p' | tr -d \"'[:space:]'\')"
 else
     log "Force Python version to $PYTHON_RUNTIME_VERSION, because PYTHON_RUNTIME_VERSION is set!"
 fi

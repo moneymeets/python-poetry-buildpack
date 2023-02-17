@@ -1,4 +1,4 @@
------> Using Poetry version from POETRY_VERSION config var: 1.2.3
+-----> Using Poetry version from POETRY_VERSION config var: 1.2.0
 -----> Generate requirements.txt with Poetry
 -----> Install Poetry
        >>> mocked curl call <<<
