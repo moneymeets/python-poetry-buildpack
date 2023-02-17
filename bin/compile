@@ -98,11 +98,13 @@ fi
 # ^3.8 -> not valid
 # 3.8 -> not valid
 # 3.8.1 -> valid
+# ==3.8.1 -> valid
 
-if [[ "$PYTHON_RUNTIME_VERSION" =~ ^[2-9](\.[0-9]+){2}$ ]] ; then
+if [[ "$PYTHON_RUNTIME_VERSION" =~ ^(==)?[2-9](\.[0-9]+){2}$ ]] ; then
+    PYTHON_RUNTIME_VERSION=${PYTHON_RUNTIME_VERSION#"=="}
     log "Write $PYTHON_RUNTIME_VERSION into $RUNTIME_FILE"
     echo "python-$PYTHON_RUNTIME_VERSION" > "$RUNTIME_FILE"
 else
-    log "$PYTHON_RUNTIME_VERSION is not valid, please specify an exact Python version (e.g. 3.8.1) in your pyproject.toml (and thus poetry.lock)" >&2
+    log "$PYTHON_RUNTIME_VERSION is not valid, please specify an exact Python version (e.g. 3.8.1 or ==3.8.1) in your pyproject.toml (and thus poetry.lock)" >&2
     exit 1
 fi
