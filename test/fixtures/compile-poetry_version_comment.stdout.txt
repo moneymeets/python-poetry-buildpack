@@ -1,0 +1,10 @@
+-----> Read Poetry version 1.5.1 from poetry.lock
+-----> Generate requirements.txt with Poetry
+-----> Install Poetry
+       >>> mocked curl call <<<
+-----> Add Poetry to the PATH
+-----> Export requirements.txt from Poetry
+       >>> mocked poetry call <<<
+-----> Export Python version from Poetry to Heroku runtime.txt file
+-----> Read Python version from poetry.lock
+-----> Write 3.8.3 into runtime.txt
