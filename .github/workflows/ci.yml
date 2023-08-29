@@ -17,3 +17,13 @@ jobs:
           shellcheck -P SCRIPTDIR -x test/utils test/test-*
 
       - run: ./run_tests.sh
+
+  test-macos:
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: macos-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - run: ./run_tests.sh
