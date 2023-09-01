@@ -9,12 +9,14 @@ run_test sanity-2 compile BUILD_DIR CACHE_DIR
 cp fixtures/poetry.lock-valid "$INPUT_DIR"/poetry.lock
 run_test no_vars_success compile "$INPUT_DIR" CACHE_DIR fixtures/env_dir
 
+cp fixtures/poetry.lock-valid_version_comment "$INPUT_DIR"/poetry.lock
+run_test poetry_version_comment compile "$INPUT_DIR" CACHE_DIR fixtures/env_dir
+
 cp fixtures/poetry.lock-valid_exact_version_specifier "$INPUT_DIR"/poetry.lock
 run_test exact_version_specifier compile "$INPUT_DIR" CACHE_DIR fixtures/env_dir
 
-cp fixtures/poetry.lock-valid "$INPUT_DIR"/poetry.lock
 # add trailing space to python-versions to test if it will be removed
-sed -i 's/^python-versions.*/& /g' "$INPUT_DIR"/poetry.lock
+sed -e 's/^python-versions.*/& /g' fixtures/poetry.lock-valid > "$INPUT_DIR"/poetry.lock
 run_test trailing_space compile "$INPUT_DIR" CACHE_DIR fixtures/env_dir
 
 cp fixtures/poetry.lock-valid "$INPUT_DIR"/poetry.lock

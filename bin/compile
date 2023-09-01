@@ -25,9 +25,18 @@ for env_file in $BUILDPACK_VARIABLES ; do
     [ -f "$ENV_DIR/$env_file" ] && export "$(basename "$env_file")=$(cat "$ENV_DIR/$env_file" 2>/dev/null)"
 done
 
-if [ -z "${POETRY_VERSION:-}" ] ; then
-    export POETRY_VERSION=1.5.1
-    log "No Poetry version specified in POETRY_VERSION config var. Defaulting to $POETRY_VERSION."
+POETRY_VERSION="${POETRY_VERSION:-}"
+
+if [ -z "$POETRY_VERSION" ] ; then
+    if [ -f "$BUILD_DIR/poetry.lock" ] ; then
+        POETRY_VERSION=$(head --lines=1 "$BUILD_DIR/poetry.lock" | grep --only-matching '[0-9]\+\.[0-9]\+\.[0-9]\+' || true)
+    fi
+    if [ -n "$POETRY_VERSION" ] ; then
+        export POETRY_VERSION
+        log "Read Poetry version $POETRY_VERSION from poetry.lock"
+    else
+        log "No Poetry version specified in POETRY_VERSION config var. Defaulting to latest."
+    fi
 else
     log "Using Poetry version from POETRY_VERSION config var: $POETRY_VERSION"
 fi
@@ -88,7 +97,7 @@ fi
 
 if [ -z "${PYTHON_RUNTIME_VERSION:-}" ] ; then
     log "Read Python version from poetry.lock"
-    PYTHON_RUNTIME_VERSION="$(sed -n -e '/^\[metadata\]/,/^\[/p' poetry.lock | sed -n -e 's/^python-versions\s*=\s*//p' | tr -d \"'[:space:]'\')"
+    PYTHON_RUNTIME_VERSION="$(sed -n -e '/^\[metadata\]/,/^\[/p' poetry.lock | sed -n -e 's/^python-versions[[:space:]]*=[[:space:]]*//p' | tr -d \"'[:space:]'\')"
 else
     log "Force Python version to $PYTHON_RUNTIME_VERSION, because PYTHON_RUNTIME_VERSION is set!"
 fi

@@ -14,7 +14,7 @@ heroku buildpacks:add https://github.com/moneymeets/python-poetry-buildpack.git
 heroku buildpacks:add heroku/python
 ```
 
-**Note:** this buildpack is _only_ for generating `requirements.txt` and `runtime.txt` for subsequent use by the official `heroku/python` buildpack. Do not depend on the installed Poetry's location, or its venv remaining functional at app runtime. If you need Poetry for other purposes (for example CI checks), make your own separate Poetry installation accordingly.
+**Note:** this buildpack is _only_ for generating `requirements.txt` and `runtime.txt` for subsequent use by the official `heroku/python` buildpack. Do not depend on the installed Poetry's location, or its virtual environment remaining functional at app runtime. If you need Poetry for other purposes (for example CI checks), make your own separate Poetry installation accordingly.
 
 ## Configuration
 
@@ -26,15 +26,27 @@ Python version can be forced by setting the `PYTHON_RUNTIME_VERSION` variable. O
 heroku config:set PYTHON_RUNTIME_VERSION=3.9.1
 ```
 
+### `runtime.txt`
+
+Generation of the `runtime.txt` can be skipped by setting `DISABLE_POETRY_CREATE_RUNTIME_FILE` to `1`:
+
+```
+heroku config:set DISABLE_POETRY_CREATE_RUNTIME_FILE=1
+```
+
+If `DISABLE_POETRY_CREATE_RUNTIME_FILE` is set, the required Python version can be specified in `runtime.txt`. Otherwise, if `runtime.txt` is present in the repository, the buildpack will prevent the app from being deployed in order to avoid possible ambiguities.
+
 ### Poetry
 
-Poetry version can be specified by setting `POETRY_VERSION` in Heroku config vars. Otherwise, it will default to a hardcoded version.
+Poetry version can be specified by setting `POETRY_VERSION` in Heroku config vars. Otherwise, it will attempt to be inferred from `poetry.lock` or default to the latest version.
 
 ```
 heroku config:set POETRY_VERSION=1.1.13
 ```
 
 Generally all variables starting with `POETRY_` are passed on to Poetry by this buildpack; see the corresponding [Poetry documentation](https://python-poetry.org/docs/configuration/#using-environment-variables) section for possible uses.
+
+### `requirements.txt`
 
 Exporting of development dependencies (e.g. to run tests in CI pipelines) can be optionally enabled by setting `POETRY_EXPORT_DEV_REQUIREMENTS` to `1`:
 
@@ -47,16 +59,6 @@ If you want to override the default export parameters (`--without-hashes --with-
 ```
 heroku config:set POETRY_EXPORT_PARAMS=--with-hashes
 ```
-
-### runtime.txt
-
-Generation of the `runtime.txt` can be skipped by setting `DISABLE_POETRY_CREATE_RUNTIME_FILE` to `1`:
-
-```
-heroku config:set DISABLE_POETRY_CREATE_RUNTIME_FILE=1
-```
-
-If `DISABLE_POETRY_CREATE_RUNTIME_FILE` is set, the required Python version can be specified in `runtime.txt`. Otherwise, if `runtime.txt` is present in the repository, the buildpack will prevent the app from being deployed in order to avoid possible ambiguities.
 
 ## Contributing
 

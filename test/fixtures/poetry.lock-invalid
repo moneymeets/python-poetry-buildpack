@@ -1,3 +1,4 @@
+[[package]]
 python-versions = "3.8.1"
 
 [metadata]
