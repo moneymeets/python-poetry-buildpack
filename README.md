@@ -38,7 +38,7 @@ If `DISABLE_POETRY_CREATE_RUNTIME_FILE` is set, the required Python version can 
 
 ### Poetry
 
-Poetry version can be specified by setting `POETRY_VERSION` in Heroku config vars. Otherwise, it will attempt to be inferred from `poetry.lock` or default to a hardcoded version.
+Poetry version can be specified by setting `POETRY_VERSION` in Heroku config vars. Otherwise, it will attempt to be inferred from `poetry.lock` or default to the latest version.
 
 ```
 heroku config:set POETRY_VERSION=1.1.13

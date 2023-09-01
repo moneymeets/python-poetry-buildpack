@@ -1,4 +1,4 @@
------> No Poetry version specified in POETRY_VERSION config var. Defaulting to 1.5.1.
+-----> No Poetry version specified in POETRY_VERSION config var. Defaulting to latest.
 -----> Generate requirements.txt with Poetry
 -----> Install Poetry
        >>> mocked curl call <<<
