@@ -16,11 +16,12 @@ jobs:
       contents: read
       pull-requests: read
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           # https://docs.github.com/en/actions/reference/events-that-trigger-workflows#triggering-new-workflows-using-a-personal-access-token
           ssh-key: '${{ secrets.WORKFLOW_DEPLOY_KEY }}'
+          show-progress: false
 
       - name: Checkout PR
         env:
