@@ -27,7 +27,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          hub pr checkout ${{ github.event.issue.number }}
+          gh pr checkout ${{ github.event.issue.number }}
 
       - name: Rebase and push
         run: |
