@@ -3,6 +3,8 @@
 -----> Install Poetry
        >>> mocked curl call <<<
 -----> Add Poetry to the PATH
+-----> Install poetry-plugin-export
+       >>> mocked poetry call <<<
 -----> Export requirements.txt from Poetry
 -----> Enable exporting dev requirements to requirements.txt
        >>> mocked poetry call <<<
