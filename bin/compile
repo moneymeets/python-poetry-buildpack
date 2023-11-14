@@ -58,6 +58,10 @@ if [ "${POETRY_VERSION:0:3}" = "1.2" ] ; then
     poetry config virtualenvs.create false | indent
 fi
 
+# Plugin is needs to be installed explicitly in future versions of Poetry
+log "Install poetry-plugin-export"
+poetry self add poetry-plugin-export | indent
+
 REQUIREMENTS_FILE="requirements.txt"
 
 log "Export $REQUIREMENTS_FILE from Poetry"
