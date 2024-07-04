@@ -62,6 +62,12 @@ fi
 log "Install poetry-plugin-export"
 poetry self add 'poetry-plugin-export@*' | indent
 
+# Disabled warning about manually installing export plugin
+# https://python-poetry.org/blog/announcing-poetry-1.8.0/#removing-poetry-plugin-export-from-the-default-installation
+if [ "${POETRY_VERSION:0:3}" = "1.8" ] ; then
+    poetry config warnings.export false
+fi
+
 REQUIREMENTS_FILE="requirements.txt"
 
 log "Export $REQUIREMENTS_FILE from Poetry"
