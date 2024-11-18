@@ -2,6 +2,12 @@
 
 A [Heroku](https://devcenter.heroku.com/) Buildpack for [Poetry](https://github.com/python-poetry/poetry) users.
 
+> [!WARNING]
+> The Heroku Python buildpack [now supports Poetry itself](https://github.com/heroku/heroku-buildpack-python/pull/1682), and so an additional Poetry
+> buildpack is no longer required to deploy an app that uses Poetry to Heroku.
+>
+> As such, this buildpack is deprecated and you should no longer use it.
+
 ## How to use
 
 The Python Poetry Buildpack prepares the build to be processed by a Python buildpack such as `heroku/python` by generating `requirements.txt` and `runtime.txt` from `poetry.lock`. With that said, your repo cannot have a `requirements.txt`, it will be exported from Poetry (for `runtime.txt` see below).

@@ -1,0 +1,32 @@
+
+[1;33m !     Warning: This buildpack is no longer required![0m
+[1;33m !     [0m
+[1;33m !     The Heroku Python buildpack now supports Poetry itself,[0m
+[1;33m !     and so an additional Poetry buildpack is no longer[0m
+[1;33m !     required to deploy an app that uses Poetry to Heroku.[0m
+[1;33m !     [0m
+[1;33m !     We recommend migrating away from this buildpack, since:[0m
+[1;33m !     - It is deprecated and no longer being maintained.[0m
+[1;33m !     - The native Poetry support installs dependencies using[0m
+[1;33m !       Poetry directly, rather than by exporting them to a[0m
+[1;33m !       requirements.txt file for use with pip. It also caches[0m
+[1;33m !       the Poetry install for faster rebuilds.[0m
+[1;33m !     [0m
+[1;33m !     To migrate:[0m
+[1;33m !     1. Run 'heroku buildpacks' to find the exact URL/alias[0m
+[1;33m !        configured on your app for the Poetry buildpack.[0m
+[1;33m !     2. Remove the Poetry buildpack using:[0m
+[1;33m !        'heroku buildpacks:remove <BUILDPACK_URL>'[0m
+[1;33m !        For example:[0m
+[1;33m !        'heroku buildpacks:remove https://github.com/moneymeets/python-poetry-buildpack.git'[0m
+[1;33m !     3. Create a '.python-version' file in the root of your[0m
+[1;33m !        repository containing a Python version that matches[0m
+[1;33m !        the version listed in your 'poetry.lock' under[0m
+[1;33m !        'metadata.python-versions'. For syntax, see:[0m
+[1;33m !        https://devcenter.heroku.com/articles/python-runtimes[0m
+[1;33m !     4. Commit all changes and deploy your app as normal.[0m
+[1;33m !     [0m
+[1;33m !     For more information, see:[0m
+[1;33m !     https://github.com/moneymeets/python-poetry-buildpack/issues/75[0m
+[1;33m !     https://github.com/heroku/heroku-buildpack-python/pull/1682[0m
+

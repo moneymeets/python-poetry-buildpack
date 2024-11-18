@@ -1,1 +1,1 @@
-../bin/compile: line 14: $3: unbound variable
+../bin/compile: line 6: $3: unbound variable
